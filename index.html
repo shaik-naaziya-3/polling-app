@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Polling App</title>
+</head>
+
+<body>
+
+<h2>Create Poll</h2>
+
+<input id="question" placeholder="Enter question"><br><br>
+<input id="opt1" placeholder="Option 1"><br><br>
+<input id="opt2" placeholder="Option 2"><br><br>
+
+<button onclick="createPoll()">Create Poll</button>
+
+<h2>Polls</h2>
+<div id="polls"></div>
+
+<script>
+
+async function createPoll(){
+
+const question=document.getElementById("question").value;
+const opt1=document.getElementById("opt1").value;
+const opt2=document.getElementById("opt2").value;
+
+await fetch("http://localhost:5000/createPoll",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+question:question,
+options:[
+{text:opt1,votes:0},
+{text:opt2,votes:0}
+]
+})
+})
+
+loadPolls()
+
+}
+
+async function loadPolls(){
+
+const res=await fetch("http://localhost:5000/polls")
+const data=await res.json()
+
+let html=""
+
+data.forEach(poll=>{
+
+html+=`<h3>${poll.question}</h3>`
+
+poll.options.forEach((opt,i)=>{
+
+html+=`<button onclick="vote('${poll._id}',${i})">${opt.text} (${opt.votes})</button><br>`
+
+})
+
+})
+
+document.getElementById("polls").innerHTML=html
+
+}
+
+async function vote(id,index){
+
+await fetch(`http://localhost:5000/vote/${id}/${index}`,{
+method:"POST"
+})
+
+loadPolls()
+
+}
+
+loadPolls()
+
+</script>
+
+</body>
+</html>
