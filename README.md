@@ -1,20 +1,27 @@
-# Polling App
+# PollPulse - Polling App
 
-This is a simple polling application built using Node.js, Express, and MongoDB.
+## Tech Stack
+React, Node.js, Express.js, MongoDB, JWT
 
-Features:
-- Create a poll with options
-- View available polls
-- Vote for an option
-- Display vote results
+## Features
+- Create poll
+- Vote on poll
+- View results
 
-Technologies Used:
-- Node.js
-- Express.js
-- MongoDB
-- HTML / JavaScript
+## API Endpoints
 
-How to Run:
-1. Install dependencies using: npm install
-2. Start server: node server.js
-3. Open index.html in browser
+POST /createPoll
+Creates a new poll.
+
+GET /polls
+Returns all polls.
+
+POST /vote/:id/:index
+Vote for an option.
+
+## Setup
+
+1. Clone repository
+2. Run npm install
+3. Run node server.js
+4. Open index.html
